@@ -1,18 +1,17 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
+
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
 contract MyNFT is ERC721 {
     uint256 public nextTokenId;
-    address public admin;
+    uint256 public constant MAX_SUPPLY = 100;
 
-    constructor() ERC721("MyNFT", "MNFT") {
-        admin = msg.sender;
-    }
+    constructor() ERC721("MyNFT", "MNFT") {}
 
-    function mint(address to) external {
-        require(msg.sender == admin, "only admin can mint");
-        _safeMint(to, nextTokenId);
+    function mint() external {
+        require(nextTokenId < MAX_SUPPLY, "max supply reached");
+        _safeMint(msg.sender, nextTokenId);
         nextTokenId++;
     }
 }
