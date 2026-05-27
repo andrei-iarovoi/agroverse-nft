@@ -17,7 +17,8 @@ contract MyNFT is ERC721, Ownable {
     /// @notice Price per NFT mint
     uint256 public mintPrice = 0.001 ether;
 
-    constructor() ERC721("MyNFT", "MNFT") Ownable {}
+    constructor() ERC721("MyNFT", "MNFT") Ownable(msg.sender) {
+    }
 
     /// @notice Mint a new NFT by paying the mint price
     /// @dev Reverts if max supply reached or insufficient ETH sent
