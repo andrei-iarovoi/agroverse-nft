@@ -109,4 +109,23 @@ contract MyNFTTest is Test {
         vm.deal(user, 1 ether);
         nft.withdraw();
         }
+
+    function testTokenURI() public {
+        address user = address(1);
+
+        vm.deal(user, 1 ether);
+  
+        vm.prank(user);
+        nft.mint{value: 0.001 ether}();
+
+        string memory expectedURI = "ipfs://placeholder/0.json";
+
+        assertEq(nft.tokenURI(0), expectedURI);
+    }
+
+    function testTokenURINonExistentToken() public {
+         vm.expectRevert("token does not exist");
+
+        nft.tokenURI(999);
+    }
 }
