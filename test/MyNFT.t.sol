@@ -118,7 +118,7 @@ contract MyNFTTest is Test {
         vm.prank(user);
         nft.mint{value: 0.001 ether}();
 
-        string memory expectedURI = "ipfs://placeholder/0.json";
+        string memory expectedURI = "ipfs://bafybeicyoymsxnnc6p4nwn6hv445lzqno3bt4gx5wqqrnyponc2f7bvxju/0.json";
 
         assertEq(nft.tokenURI(0), expectedURI);
     }

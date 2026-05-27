@@ -21,7 +21,8 @@ contract MyNFT is ERC721, Ownable {
     uint256 public mintPrice = 0.001 ether;
 
     constructor() ERC721("MyNFT", "MNFT") Ownable(msg.sender) {
-        baseTokenURI = "ipfs://placeholder/";
+        baseTokenURI =
+    "ipfs://bafybeicyoymsxnnc6p4nwn6hv445lzqno3bt4gx5wqqrnyponc2f7bvxju/";
     }
 
     /// @notice Mint a new NFT by paying the mint price

@@ -1,0 +1,15 @@
+{
+    "name": "Broccoli Harvester",
+    "description": "Animated vegetable farmer NFT from the AgroVerse collection.",
+    "image": "ipfs://bafybeig4gzlabiez4ozqz4w5sdifjel4nzzeeqbuff4ajuzfb4hujlvqea/06_broccoli_harvester.png",
+    "attributes": [
+        {
+            "trait_type": "Character",
+            "value": "Broccoli"
+        },
+        {
+            "trait_type": "Profession",
+            "value": "Harvester"
+        }
+    ]
+}

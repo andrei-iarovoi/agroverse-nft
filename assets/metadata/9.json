@@ -1,0 +1,15 @@
+{
+    "name": "Garlic Farmer",
+    "description": "Animated vegetable farmer NFT from the AgroVerse collection.",
+    "image": "ipfs://bafybeig4gzlabiez4ozqz4w5sdifjel4nzzeeqbuff4ajuzfb4hujlvqea/10_garlic_farmer.png",
+    "attributes": [
+        {
+            "trait_type": "Character",
+            "value": "Garlic"
+        },
+        {
+            "trait_type": "Profession",
+            "value": "Farmer"
+        }
+    ]
+}

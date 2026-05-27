@@ -1,0 +1,15 @@
+{
+    "name": "Tomato Gardener",
+    "description": "Animated vegetable farmer NFT from the AgroVerse collection.",
+    "image": "ipfs://bafybeig4gzlabiez4ozqz4w5sdifjel4nzzeeqbuff4ajuzfb4hujlvqea/01_tomato_gardener.png",
+    "attributes": [
+        {
+            "trait_type": "Character",
+            "value": "Tomato"
+        },
+        {
+            "trait_type": "Profession",
+            "value": "Gardener"
+        }
+    ]
+}
