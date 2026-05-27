@@ -5,9 +5,7 @@ import "forge-std/Script.sol";
 import "../src/MyNFT.sol";
 
 contract DeployMyNFT is Script {
-
     function run() external {
-
         // Load private key from .env
         uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
 

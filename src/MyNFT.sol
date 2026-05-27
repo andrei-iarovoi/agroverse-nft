@@ -21,8 +21,7 @@ contract MyNFT is ERC721, Ownable {
     uint256 public mintPrice = 0.001 ether;
 
     constructor() ERC721("MyNFT", "MNFT") Ownable(msg.sender) {
-        baseTokenURI =
-    "ipfs://bafybeicyoymsxnnc6p4nwn6hv445lzqno3bt4gx5wqqrnyponc2f7bvxju/";
+        baseTokenURI = "ipfs://bafybeicyoymsxnnc6p4nwn6hv445lzqno3bt4gx5wqqrnyponc2f7bvxju/";
     }
 
     /// @notice Mint a new NFT by paying the mint price
@@ -30,7 +29,7 @@ contract MyNFT is ERC721, Ownable {
     function mint() external payable {
         require(nextTokenId < MAX_SUPPLY, "max supply reached");
         require(msg.value >= mintPrice, "insufficient funds");
-        
+
         _safeMint(msg.sender, nextTokenId);
         nextTokenId++;
     }
@@ -38,7 +37,7 @@ contract MyNFT is ERC721, Ownable {
     /// @notice Withdraw all ETH from the contract to the owner
     /// @dev Uses call to avoid gas limit issues with transfer
     function withdraw() external onlyOwner {
-        (bool success, ) = msg.sender.call{value: address(this).balance}("");
+        (bool success,) = msg.sender.call{value: address(this).balance}("");
         require(success, "withdraw failed");
     }
 
@@ -49,11 +48,6 @@ contract MyNFT is ERC721, Ownable {
     function tokenURI(uint256 tokenId) public view override returns (string memory) {
         require(_ownerOf(tokenId) != address(0), "token does not exist");
 
-        return string(abi.encodePacked(
-            baseTokenURI, 
-            tokenId.toString(),
-            ".json"
-            )
-        );
+        return string(abi.encodePacked(baseTokenURI, tokenId.toString(), ".json"));
     }
 }

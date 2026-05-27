@@ -21,16 +21,16 @@ contract MyNFTTest is Test {
         nft.mint{value: 0.001 ether}();
 
         assertEq(nft.ownerOf(0), user);
-}
+    }
 
     function testMaxSupply() public {
         address user = address(1);
 
         for (uint256 i = 0; i < 100; i++) {
-        vm.prank(user);
-        vm.deal(user, 1 ether);
-        nft.mint{value: 0.001 ether}();
-    }
+            vm.prank(user);
+            vm.deal(user, 1 ether);
+            nft.mint{value: 0.001 ether}();
+        }
 
         vm.prank(user);
         vm.expectRevert();
@@ -55,7 +55,7 @@ contract MyNFTTest is Test {
     function testMintWithPayment() public {
         address user = address(1);
 
-    // Provide the user with enough ETH to mint
+        // Provide the user with enough ETH to mint
         vm.deal(user, 1 ether);
 
         vm.prank(user);
@@ -68,7 +68,7 @@ contract MyNFTTest is Test {
         address user = address(1);
 
         vm.deal(user, 1 ether);
-    
+
         vm.prank(user);
         vm.expectRevert("insufficient funds");
         nft.mint{value: 0.0001 ether}();
@@ -108,13 +108,13 @@ contract MyNFTTest is Test {
         vm.expectRevert();
         vm.deal(user, 1 ether);
         nft.withdraw();
-        }
+    }
 
     function testTokenURI() public {
         address user = address(1);
 
         vm.deal(user, 1 ether);
-  
+
         vm.prank(user);
         nft.mint{value: 0.001 ether}();
 
@@ -124,7 +124,7 @@ contract MyNFTTest is Test {
     }
 
     function testTokenURINonExistentToken() public {
-         vm.expectRevert("token does not exist");
+        vm.expectRevert("token does not exist");
 
         nft.tokenURI(999);
     }
