@@ -7,7 +7,36 @@ import {
 
 import { ABI, CONTRACT_ADDRESS } from "./contracts";
 
+import { formatEther } from "viem";
+
 import preview from "./assets/agroverse-preview.png";
+import tomato from "./assets/nfts/tomato.png";
+import pumpkin from "./assets/nfts/pumpkin.png";
+import beekeeper from "./assets/nfts/beekeeper.png";
+import corn from "./assets/nfts/corn.png";
+
+const nftItems = [
+  {
+    id: 1,
+    name: "Tomato Gardener",
+    image: tomato,
+  },
+  {
+    id: 2,
+    name: "Pumpkin Farmer",
+    image: pumpkin,
+  },
+  {
+    id: 3,
+    name: "Beekeeper Lemon",
+    image: beekeeper,
+  },
+  {
+    id: 4,
+    name: "Corn Tractor Driver",
+    image: corn,
+  },
+];
 
 function App() {
   const { data: mintPrice } = useReadContract({
@@ -24,10 +53,9 @@ function App() {
 
   const { data: hash, writeContract } = useWriteContract();
 
-  const { isSuccess, isLoading: isConfirming } =
-    useWaitForTransactionReceipt({
-      hash,
-    });
+  const { isSuccess, isLoading: isConfirming } = useWaitForTransactionReceipt({
+    hash,
+  });
 
   function mintNFT() {
     try {
@@ -54,7 +82,6 @@ function App() {
 
       {/* MAIN CONTENT */}
       <main className="max-w-7xl mx-auto px-6 py-12 grid md:grid-cols-2 gap-12 items-center">
-        
         {/* LEFT SIDE */}
         <div>
           <p className="text-green-400 font-semibold mb-4">
@@ -66,8 +93,8 @@ function App() {
           </h2>
 
           <p className="text-gray-400 text-lg mb-8">
-            A handcrafted NFT collection featuring animated fruits and vegetables
-            working as farmers, gardeners and beekeepers.
+            A handcrafted NFT collection featuring animated fruits and
+            vegetables working as farmers, gardeners and beekeepers.
           </p>
 
           <div className="flex gap-4">
@@ -81,7 +108,7 @@ function App() {
             <div className="bg-white/5 border border-white/10 rounded-xl px-6 py-3">
               <p className="text-sm text-gray-400">Mint Price</p>
               <p className="font-bold">
-                {mintPrice?.toString()} wei
+                {mintPrice ? formatEther(mintPrice as bigint) : "0"} ETH
               </p>
             </div>
           </div>
@@ -99,25 +126,45 @@ function App() {
           </div>
 
           {isConfirming && (
-            <p className="mt-6 text-yellow-400">
-              Transaction pending...
-            </p>
+            <p className="mt-6 text-yellow-400">Transaction pending...</p>
           )}
 
           {isSuccess && (
-            <p className="mt-6 text-green-400">
-              NFT minted successfully!
-            </p>
+            <p className="mt-6 text-green-400">NFT minted successfully!</p>
           )}
         </div>
 
         {/* RIGHT SIDE */}
-        <div>
+        <div className="space-y-6">
           <img
             src={preview}
             alt="AgroVerse NFT Collection"
             className="rounded-3xl border border-white/10 shadow-2xl"
           />
+
+          {/* NFT GALLERY */}
+          <div>
+            <h3 className="text-2xl font-bold mb-4">Collection Highlights</h3>
+
+            <div className="grid grid-cols-2 gap-4">
+              {nftItems.map((nft) => (
+                <div
+                  key={nft.id}
+                  className="bg-white/5 border border-white/10 rounded-2xl p-4 hover:bg-white/10 transition"
+                >
+                  <img
+                    src={nft.image}
+                    alt={nft.name}
+                    className="aspect-square object-cover rounded-xl mb-3"
+                  />
+
+                  <p className="font-semibold">{nft.name}</p>
+
+                  <p className="text-sm text-gray-400">NFT #{nft.id}</p>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </main>
     </div>
