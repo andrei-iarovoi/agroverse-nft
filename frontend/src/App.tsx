@@ -51,6 +51,8 @@ function App() {
     functionName: "nextTokenId",
   });
 
+  const mintedPercent = totalMinted ? (Number(totalMinted) / 100) * 100 : 0;
+
   const { data: hash, writeContract } = useWriteContract();
 
   const { isSuccess, isLoading: isConfirming } = useWaitForTransactionReceipt({
@@ -113,16 +115,21 @@ function App() {
             </div>
           </div>
 
-          <div className="mt-8 bg-white/5 border border-white/10 rounded-2xl p-6">
-            <p className="text-gray-400 mb-2">Collection Progress</p>
+          <p className="text-gray-400 mb-4">Collection Progress</p>
 
-            <div className="flex items-center justify-between">
-              <span>Total Minted</span>
+          <div className="w-full bg-black/30 rounded-full h-4 overflow-hidden">
+            <div
+              className="bg-green-400 h-full transition-all duration-500"
+              style={{ width: `${mintedPercent}%` }}
+            />
+          </div>
 
-              <span className="font-bold text-green-400">
-                {totalMinted?.toString()} / 100
-              </span>
-            </div>
+          <div className="flex items-center justify-between mt-4">
+            <span>Total Minted</span>
+
+            <span className="font-bold text-green-400">
+              {totalMinted?.toString()} / 100
+            </span>
           </div>
 
           {isConfirming && (
