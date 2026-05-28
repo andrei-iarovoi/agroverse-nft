@@ -1,9 +1,15 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { useReadContract, useWriteContract, useWaitForTransactionReceipt } from "wagmi";
+import {
+  useReadContract,
+  useWriteContract,
+  useWaitForTransactionReceipt,
+} from "wagmi";
+
 import { ABI, CONTRACT_ADDRESS } from "./contracts";
 
-function App() {
+import preview from "./assets/agroverse-preview.png";
 
+function App() {
   const { data: mintPrice } = useReadContract({
     address: CONTRACT_ADDRESS,
     abi: ABI,
@@ -16,20 +22,14 @@ function App() {
     functionName: "nextTokenId",
   });
 
-  // useWriteContract without parameters returns a `writeContract` function we
-  // can call with the full contract call options. The returned `data` (here
-  // called `hash`) will contain the transaction hash after sending.
   const { data: hash, writeContract } = useWriteContract();
 
-  const { isSuccess, isLoading: isConfirming } = useWaitForTransactionReceipt({
-    hash,
-  });
+  const { isSuccess, isLoading: isConfirming } =
+    useWaitForTransactionReceipt({
+      hash,
+    });
 
   function mintNFT() {
-    // Call the write function with the contract call details. We cast to
-    // `any` here because the project's wagmi types in this workspace don't
-    // match the runtime call signature exactly. This avoids TypeScript
-    // compile errors while keeping the runtime behavior correct.
     try {
       (writeContract as any)?.({
         abi: ABI,
@@ -38,28 +38,88 @@ function App() {
         args: [],
         value: 1000000000000000n,
       });
-      console.log("mint transaction submitted");
     } catch (err) {
       console.error("mint failed", err);
     }
   }
-  
 
   return (
-    <div>
-      <h1>AgroVerse NFT</h1>
+    <div className="min-h-screen bg-[#0b0f19] text-white">
+      {/* HEADER */}
+      <header className="flex items-center justify-between p-6 border-b border-white/10">
+        <h1 className="text-3xl font-bold">AgroVerse NFT</h1>
 
-      <ConnectButton />
+        <ConnectButton />
+      </header>
 
-      <button onClick={mintNFT}>Mint NFT</button>
+      {/* MAIN CONTENT */}
+      <main className="max-w-7xl mx-auto px-6 py-12 grid md:grid-cols-2 gap-12 items-center">
+        
+        {/* LEFT SIDE */}
+        <div>
+          <p className="text-green-400 font-semibold mb-4">
+            Web3 Farming Collection
+          </p>
 
-      <p>Mint Price: {mintPrice?.toString()} wei</p>
+          <h2 className="text-5xl font-bold leading-tight mb-6">
+            Cute Farmer NFTs living on Ethereum
+          </h2>
 
-      <p>Total Minted: {totalMinted?.toString()}</p>
+          <p className="text-gray-400 text-lg mb-8">
+            A handcrafted NFT collection featuring animated fruits and vegetables
+            working as farmers, gardeners and beekeepers.
+          </p>
 
-      {isConfirming && <p>Transaction pending...</p>}
+          <div className="flex gap-4">
+            <button
+              onClick={mintNFT}
+              className="bg-green-500 hover:bg-green-400 transition px-6 py-3 rounded-xl font-semibold text-black"
+            >
+              Mint NFT
+            </button>
 
-      {isSuccess && <p>NFT minted successfully!</p>}
+            <div className="bg-white/5 border border-white/10 rounded-xl px-6 py-3">
+              <p className="text-sm text-gray-400">Mint Price</p>
+              <p className="font-bold">
+                {mintPrice?.toString()} wei
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-8 bg-white/5 border border-white/10 rounded-2xl p-6">
+            <p className="text-gray-400 mb-2">Collection Progress</p>
+
+            <div className="flex items-center justify-between">
+              <span>Total Minted</span>
+
+              <span className="font-bold text-green-400">
+                {totalMinted?.toString()} / 100
+              </span>
+            </div>
+          </div>
+
+          {isConfirming && (
+            <p className="mt-6 text-yellow-400">
+              Transaction pending...
+            </p>
+          )}
+
+          {isSuccess && (
+            <p className="mt-6 text-green-400">
+              NFT minted successfully!
+            </p>
+          )}
+        </div>
+
+        {/* RIGHT SIDE */}
+        <div>
+          <img
+            src={preview}
+            alt="AgroVerse NFT Collection"
+            className="rounded-3xl border border-white/10 shadow-2xl"
+          />
+        </div>
+      </main>
     </div>
   );
 }
