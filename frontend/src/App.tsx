@@ -61,20 +61,6 @@ function App() {
     functionName: "nextTokenId",
   });
 
-  const { data: ownerOfZero } = useReadContract({
-    address: CONTRACT_ADDRESS,
-    abi: ABI,
-    functionName: "ownerOf",
-    args: [0n],
-  });
-
-  const { data: nftBalance } = useReadContract({
-    address: CONTRACT_ADDRESS,
-    abi: ABI,
-    functionName: "balanceOf",
-    args: address ? [address] : undefined,
-  });
-
   const mintedPercent = totalMinted ? (Number(totalMinted) / 100) * 100 : 0;
 
   const { data: hash, writeContract } = useWriteContract();
