@@ -3,7 +3,11 @@ import {
   useReadContract,
   useWriteContract,
   useWaitForTransactionReceipt,
+  useAccount,
+  usePublicClient,
 } from "wagmi";
+
+import { useEffect, useState } from "react";
 
 import { ABI, CONTRACT_ADDRESS } from "./contracts";
 
@@ -39,6 +43,12 @@ const nftItems = [
 ];
 
 function App() {
+  const { address } = useAccount();
+
+  const [ownedTokens, setOwnedTokens] = useState<number[]>([]);
+
+  const publicClient = usePublicClient();
+
   const { data: mintPrice } = useReadContract({
     address: CONTRACT_ADDRESS,
     abi: ABI,
@@ -51,6 +61,20 @@ function App() {
     functionName: "nextTokenId",
   });
 
+  const { data: ownerOfZero } = useReadContract({
+    address: CONTRACT_ADDRESS,
+    abi: ABI,
+    functionName: "ownerOf",
+    args: [0n],
+  });
+
+  const { data: nftBalance } = useReadContract({
+    address: CONTRACT_ADDRESS,
+    abi: ABI,
+    functionName: "balanceOf",
+    args: address ? [address] : undefined,
+  });
+
   const mintedPercent = totalMinted ? (Number(totalMinted) / 100) * 100 : 0;
 
   const { data: hash, writeContract } = useWriteContract();
@@ -58,6 +82,8 @@ function App() {
   const { isSuccess, isLoading: isConfirming } = useWaitForTransactionReceipt({
     hash,
   });
+
+  const isMinting = isConfirming;
 
   function mintNFT() {
     try {
@@ -73,6 +99,38 @@ function App() {
     }
   }
 
+  useEffect(() => {
+    async function loadOwnedNFTs() {
+      if (!address || !totalMinted || !publicClient) return;
+
+      const tokens: number[] = [];
+
+      for (let i = 0; i < Number(totalMinted); i++) {
+        const owner = await (publicClient as any).readContract({
+          address: CONTRACT_ADDRESS,
+          abi: ABI,
+          functionName: "ownerOf",
+          args: [BigInt(i)],
+        });
+
+        if (
+          typeof owner === "string" &&
+          owner.toLowerCase() === address.toLowerCase()
+        ) {
+          tokens.push(i);
+        }
+      }
+
+      setOwnedTokens(tokens);
+    }
+
+    loadOwnedNFTs();
+  }, [address, totalMinted, publicClient]);
+
+  const ownedNftItems = nftItems.filter((nft) =>
+    ownedTokens.includes(nft.id - 1),
+  );
+
   return (
     <div className="min-h-screen bg-[#0b0f19] text-white">
       {/* HEADER */}
@@ -83,7 +141,7 @@ function App() {
       </header>
 
       {/* MAIN CONTENT */}
-      <main className="max-w-7xl mx-auto px-6 py-12 grid md:grid-cols-2 gap-12 items-center">
+      <main className="max-w-7xl mx-auto px-6 py-12 grid md:grid-cols-2 gap-12 items-start">
         {/* LEFT SIDE */}
         <div>
           <p className="text-green-400 font-semibold mb-4">
@@ -102,9 +160,17 @@ function App() {
           <div className="flex gap-4">
             <button
               onClick={mintNFT}
-              className="bg-green-500 hover:bg-green-400 transition px-6 py-3 rounded-xl font-semibold text-black"
+              disabled={isMinting}
+              className={`
+    px-6 py-3 rounded-xl font-semibold transition
+    ${
+      isMinting
+        ? "bg-gray-500 cursor-not-allowed text-white"
+        : "bg-green-500 hover:bg-green-400 text-black"
+    }
+  `}
             >
-              Mint NFT
+              {isMinting ? "Minting..." : "Mint NFT"}
             </button>
 
             <div className="bg-white/5 border border-white/10 rounded-xl px-6 py-3">
@@ -170,6 +236,28 @@ function App() {
                   <p className="text-sm text-gray-400">NFT #{nft.id}</p>
                 </div>
               ))}
+            </div>
+            <div className="mt-10">
+              <h3 className="text-2xl font-bold mb-4">Your NFTs</h3>
+
+              <div className="grid grid-cols-2 gap-4">
+                {ownedNftItems.map((nft) => (
+                  <div
+                    key={nft.id}
+                    className="bg-white/5 border border-white/10 rounded-2xl p-4"
+                  >
+                    <img
+                      src={nft.image}
+                      alt={nft.name}
+                      className="aspect-square object-cover rounded-xl mb-3"
+                    />
+
+                    <p className="font-semibold">{nft.name}</p>
+
+                    <p className="text-sm text-gray-400">NFT #{nft.id - 1}</p>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
