@@ -103,7 +103,7 @@ Example NFT metadata:
 Clone the repository:
 
 ```bash
-git clone https://github.com/andrei-iarovoi/nft-mint-dapp.git
+git clone git clone https://github.com/andrei-iarovoi/agroverse-nft.git
 ```
 
 Install dependencies:
