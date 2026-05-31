@@ -214,16 +214,24 @@ function App() {
             alt="AgroVerse NFT Collection"
             className="rounded-3xl border border-white/10 shadow-2xl"
           />
+        </div>
 
-          {/* NFT GALLERY */}
-          <div>
-            <h3 className="text-2xl font-bold mb-4">Collection Highlights</h3>
+        {/* NFT GALLERY */}
+        <div>
+          <div className="mt-10">
+            <h3 className="text-2xl font-bold mb-4">
+              Your NFTs ({ownedTokens.length})
+            </h3>
 
-            <div className="grid grid-cols-2 gap-4">
-              {nftItems.map((nft) => (
+            <p className="text-gray-400 mt-2 mb-6">
+              NFTs currently owned by your connected wallet.
+            </p>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {ownedNftItems.map((nft) => (
                 <div
                   key={nft.id}
-                  className="bg-white/5 border border-white/10 rounded-2xl p-4 hover:bg-white/10 transition"
+                  className="bg-white/5 border border-white/10 rounded-2xl p-4"
                 >
                   <img
                     src={nft.image}
@@ -233,31 +241,9 @@ function App() {
 
                   <p className="font-semibold">{nft.name}</p>
 
-                  <p className="text-sm text-gray-400">NFT #{nft.id}</p>
+                  <p className="text-sm text-gray-400">NFT #{nft.id - 1}</p>
                 </div>
               ))}
-            </div>
-            <div className="mt-10">
-              <h3 className="text-2xl font-bold mb-4">Your NFTs</h3>
-
-              <div className="grid grid-cols-2 gap-4">
-                {ownedNftItems.map((nft) => (
-                  <div
-                    key={nft.id}
-                    className="bg-white/5 border border-white/10 rounded-2xl p-4"
-                  >
-                    <img
-                      src={nft.image}
-                      alt={nft.name}
-                      className="aspect-square object-cover rounded-xl mb-3"
-                    />
-
-                    <p className="font-semibold">{nft.name}</p>
-
-                    <p className="text-sm text-gray-400">NFT #{nft.id - 1}</p>
-                  </div>
-                ))}
-              </div>
             </div>
           </div>
         </div>
