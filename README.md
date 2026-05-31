@@ -8,7 +8,7 @@ AgroVerse NFT is a collection of cute farmer-themed NFTs deployed on Ethereum Se
 
 ## 🚀 Live Demo
 
-Coming soon (Vercel deployment)
+https://agroverse-nft.vercel.app
 
 ---
 

@@ -1,4 +1,31 @@
 {
 	"solidity.packageDefaultDependenciesContractsDirectory": "contracts",
-	"solidity.packageDefaultDependenciesDirectory": "node_modules"
+	"solidity.packageDefaultDependenciesDirectory": "node_modules",
+
+	// Enable format on save
+	"editor.formatOnSave": true,
+	// Set Prettier as the default formatter where available
+	"editor.defaultFormatter": "esbenp.prettier-vscode",
+
+	// Ensure Prettier is used for these language types
+	"[javascript]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[javascriptreact]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[typescript]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[typescriptreact]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[json]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+
+	// If you prefer Prettier to only run when a config file exists, set this to true
+	"prettier.requireConfig": false
 }
+
+
