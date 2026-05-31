@@ -217,16 +217,24 @@ function App() {
         </div>
 
         {/* NFT GALLERY */}
-        <div>
-          <div className="mt-10">
-            <h3 className="text-2xl font-bold mb-4">
-              Your NFTs ({ownedTokens.length})
-            </h3>
+        <div className="mt-16">
+          <h3 className="text-3xl font-bold mb-2">
+            Your NFTs ({ownedTokens.length})
+          </h3>
 
-            <p className="text-gray-400 mt-2 mb-6">
-              NFTs currently owned by your connected wallet.
-            </p>
+          <p className="text-gray-400 mb-6">
+            NFTs currently owned by your connected wallet.
+          </p>
 
+          {ownedTokens.length === 0 ? (
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
+              <p className="text-lg font-medium">You don't own any NFTs yet.</p>
+
+              <p className="text-gray-400 mt-2">
+                Mint your first NFT using the button above.
+              </p>
+            </div>
+          ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {ownedNftItems.map((nft) => (
                 <a
@@ -248,7 +256,7 @@ function App() {
                 </a>
               ))}
             </div>
-          </div>
+          )}
         </div>
       </main>
     </div>
