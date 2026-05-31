@@ -229,9 +229,12 @@ function App() {
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {ownedNftItems.map((nft) => (
-                <div
+                <a
                   key={nft.id}
-                  className="bg-white/5 border border-white/10 rounded-2xl p-4"
+                  href={`https://sepolia.etherscan.io/token/${CONTRACT_ADDRESS}?a=${nft.id - 1}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block bg-white/5 border border-white/10 rounded-2xl p-4 hover:bg-white/10 hover:border-green-400 hover:scale-105 transition"
                 >
                   <img
                     src={nft.image}
@@ -242,7 +245,7 @@ function App() {
                   <p className="font-semibold">{nft.name}</p>
 
                   <p className="text-sm text-gray-400">NFT #{nft.id - 1}</p>
-                </div>
+                </a>
               ))}
             </div>
           </div>
